@@ -1,25 +1,23 @@
 #!/bin/bash
 
-read -p "what number did bhaskar get when dice is rolled: " LUCKY 
-read -p "dice is not properly rolled %:" rolled
+read -p "What number did Bhaskar get when dice is rolled: " LUCKY
+read -p "Dice is not properly rolled (%): " rolled
 
-if [[ $LUCKY == "six" ]];
+# Convert input to lowercase to avoid case mismatches
+LUCKY=$(echo "$LUCKY" | tr '[:upper:]' '[:lower:]')
 
-then
+# Check if LUCKY is "six"
+if [[ "$LUCKY" == "six" ]]; then
+    echo "Bhaskar is LUCKY"
 
-	echo "bhaskar is LUCKY"
-
-elif
-	[[ $rolled -ge 7 ]];
-	
-then
-	echo "bhaskar is LUCKY"
+# Else check if rolled is a number and >= 7
+elif [[ "$rolled" =~ ^[0-9]+$ ]] && [[ "$rolled" -ge 7 ]]; then
+    echo "Bhaskar is LUCKY"
 
 else
-
-	echo "bhaskar is not LUCKY"
-
+    echo "Bhaskar is not LUCKY"
 fi
+
 
 
 
