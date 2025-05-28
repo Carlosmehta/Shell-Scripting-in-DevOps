@@ -2,7 +2,7 @@
 
 #To make function
 
-welcomeNote() {
+welcome() {
 
 	echo "-----------------------------"
 	echo "Bhaskar"
@@ -10,6 +10,6 @@ welcomeNote() {
 }
 
 #to call our function
-welcomeNote
-welcomeNote
-welcomeNote
+welcome
+welcome
+welcome
