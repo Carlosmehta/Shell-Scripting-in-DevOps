@@ -1,5 +1,9 @@
 # SHELL/BASH-SCRIPTING-IN-DEVOPS
 
+# 🐧 Bash Scripting Lab
+
+This repository contains practical Bash scripting exercises for learning and practicing shell scripting in DevOps.
+
 
 ---
 
