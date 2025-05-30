@@ -1,16 +1,16 @@
-# SHELL/BASH-SCRIPTING-IN-DEVOPS
+# ✨  SHELL/BASH-SCRIPTING-IN-DEVOPS
 
 # 🐧 Bash Scripting Lab
 
-This repository contains practical Bash scripting exercises for learning and practicing shell scripting in DevOps.
+This repository contains **practical Bash scripting exercises** for learning and practicing shell scripting in DevOps environments.
 
 
 ---
 
-##  Topics
+##   📚 Topics Covered
 
 ### 📂 — Bash Basics
-| Script              | Description                                  |
+| 🧾 Script           | 📄 Description                               |
 |---------------------|----------------------------------------------|
 | `01_basic.sh`       | Hello World script and basic syntax          |
 | `02_comments.sh`    | How to write comments in Bash                |
@@ -31,7 +31,7 @@ This repository contains practical Bash scripting exercises for learning and pra
 ---
 
 ### 📂 — Functions & Arguments
-| Script                  | Description                                   |
+| 🧾 Script                |📄 Description                                 |
 |--------------------------|-----------------------------------------------|
 | `24_function_demo.sh`    | How to write and call functions               |
 | `25_func_with_args.sh`   | Functions with arguments                      |
@@ -42,18 +42,19 @@ This repository contains practical Bash scripting exercises for learning and pra
 
 ### 📂 day03 — Coming Soon
 Reserved for topics like:
-- File handling
-- Error handling
-- Logging
-- Advanced input/output
+- 🚨 Error Handling  
+- 🔃 Nested Loops  
+- 🔁 Looping with `break` / `continue`  
+- 🧠 Advanced Input/Output
 
 ---
 
 ## ✅ Prerequisites
 
-- Bash version 4 or higher
-- Linux environment (tested on Ubuntu)
-- Run with execution permission:
+- Bash version 4 or higher  
+- Linux/Unix-based system (tested on Ubuntu)  
+- Ensure script permissions are executable:
+
   ```bash
   chmod +x script.sh
   ./script.sh
