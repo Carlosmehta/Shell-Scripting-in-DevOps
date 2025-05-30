@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# How to store the key values pair 
+# How to store the key-value pair 
 
-# First try's
+# First Trail
 
 <<comment
 
@@ -18,7 +18,7 @@ echo -e " \nName: ${myArray[name]} \nAge: ${myArray[age]} \nCity: ${myArray[city
 
 comment
 
-# Second Try's
+# Second Trail
 
 
 declare -A myArray
