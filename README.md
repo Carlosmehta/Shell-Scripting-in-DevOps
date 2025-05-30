@@ -1,13 +1,11 @@
-# Shell/Bash-Scripting-in-DevOps
-
-Shell/BASH-SCRIPTING 
+# SHELL/BASH-SCRIPTING-IN-DEVOPS
 
 
 ---
 
-## 📆 Day-wise Topics
+##  Topics
 
-### 📂 day01 — Bash Basics
+### 📂 — Bash Basics
 | Script              | Description                                  |
 |---------------------|----------------------------------------------|
 | `01_basic.sh`       | Hello World script and basic syntax          |
@@ -28,7 +26,7 @@ Shell/BASH-SCRIPTING
 
 ---
 
-### 📂 day02 — Functions & Arguments
+### 📂 — Functions & Arguments
 | Script                  | Description                                   |
 |--------------------------|-----------------------------------------------|
 | `24_function_demo.sh`    | How to write and call functions               |
