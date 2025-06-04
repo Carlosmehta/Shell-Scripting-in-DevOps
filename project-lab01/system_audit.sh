@@ -36,6 +36,13 @@ echo "🔍 Generating system audit report..."
     echo -e "\n===== 👤 Logged-In Users ====="
     who
 
+    echo -e "\n===== 📅 Last 10 Logins ====="
+if command -v last >/dev/null 2>&1; then
+    last -n 10
+else
+    echo "'last' command not found. Please install util-linux."
+fi
+
 } > "$REPORT_FILE"
 
 echo "✅ Report saved to: $REPORT_FILE"
