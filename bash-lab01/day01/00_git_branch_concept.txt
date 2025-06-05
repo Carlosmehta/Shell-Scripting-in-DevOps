@@ -1,3 +1,5 @@
+
+
 Main Project Development (Main Road)
 |
 o──●──●──●──●──●──●──→   ← main branch (stable road)
@@ -49,6 +51,6 @@ git merge feature
 
 You're telling Git:
 
- "Hey, bring all the work done in feature into main."
+ "Hey, bring all the work done in feature into MAIN."
 
 
