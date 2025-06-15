@@ -11,6 +11,6 @@ case $choice in
 	a)date;;
 	b)ls -l;;
 	c)pwd;;
-	*)echo "PLEASE PROVIDE A VALID INPUL !!!"
+	*)echo "PLEASE PROVIDE A VALID INPUT !!!"
 esac
 
