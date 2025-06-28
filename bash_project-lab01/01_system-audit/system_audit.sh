@@ -3,7 +3,7 @@
 # System Audit Script 
 # Author: Bhaskar Mehta
 # Date: $(date)
-
+#
 REPORT_DIR="../reports"
 REPORT_FILE="$REPORT_DIR/system_audit_$(date +%F_%T).log"
 
