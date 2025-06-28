@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # System Audit and Health Report Script
-# Author: Bhaskar Mehta
+# Author: bhaskar Mehta
 # Version: 1.0
 # Description: Generates comprehensive system health report
 
@@ -25,7 +25,7 @@ echo "" >> $REPORT_FILE
 
 # 2. CPU Information
 echo "=== CPU INFORMATION ===" >> $REPORT_FILE
-echo "CPU Model: $(grep "model name" /proc/cpuinfo | head -1 | cut -d':' -f2 | sed 's/^[ \t]*//')" >> $REPORT_FILE
+echo "CPU Model: $(grep -m 1 "model name" /proc/cpuinfo | cut -d':' -f2 | sed 's/^[ \t]*//')" >> $REPORT_FILE
 echo "CPU Cores: $(nproc)" >> $REPORT_FILE
 echo "CPU Load (15 min avg): $(uptime | awk -F 'load average:' '{print $2}' | cut -d',' -f2)" >> $REPORT_FILE
 echo "" >> $REPORT_FILE
@@ -79,8 +79,13 @@ echo "Failed SSH Attempts:" >> $REPORT_FILE
 journalctl _SYSTEMD_UNIT=sshd.service | grep "Failed password" | tail -n 10 >> $REPORT_FILE
 echo "" >> $REPORT_FILE
 
-echo "Recent SSH Logins:" >> $REPORT_FILE
-last -10 >> $REPORT_FILE
+# Check if 'last' command is available
+if command -v last &> /dev/null; then
+    echo "Recent SSH Logins:" >> $REPORT_FILE
+    last -10 >> $REPORT_FILE
+else
+    echo "Recent SSH Logins: Command 'last' not found." >> $REPORT_FILE
+fi
 echo "" >> $REPORT_FILE
 
 # 8. Critical Errors
