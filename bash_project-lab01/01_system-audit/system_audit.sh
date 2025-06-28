@@ -1,49 +1,45 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 # System Audit Script 
 # Author: Bhaskar Mehta
 # Date: $(date)
 #
 REPORT_DIR="../reports"
 REPORT_FILE="$REPORT_DIR/system_audit_$(date +%F_%T).log"
+=======
+# Timestamp for the report
+timestamp=$(date '+%Y-%m-%d_%H-%M-%S')
 
-mkdir -p "$REPORT_DIR"
+# Report file
+report_file="reports/audit_${timestamp}.log"
+>>>>>>> 0a5e365 (system_audit.sh)
 
-echo " Generating system audit report..."
-{
-    echo "===== System Information ====="
-    uname -a
-    lsb_release -a 2>/dev/null
+# Start report
+echo "System Audit Report - $timestamp" > "$report_file"
+echo "======================================" >> "$report_file"
+echo "Uptime: $(uptime)" >> "$report_file"
+echo "--------------------------------------" >> "$report_file"
 
-    echo -e "\n=====  Memory Usage ====="
-    free -h
+# CPU usage
+echo "CPU Load: $(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')" >> "$report_file"
 
-    echo -e "\n=====  Disk Usage ====="
-    df -h
+# Memory usage
+echo "Memory Usage: $(free -h)" >> "$report_file"
 
-    echo -e "\n=====  Top 5 CPU-Consuming Processes ====="
-    ps aux --sort=-%cpu | head -n 6
+# Disk usage
+echo "Disk Usage: $(df -h)" >> "$report_file"
 
-    echo -e "\n=====  Open Network Ports ====="
-    ss -tuln
+# Logged-in users
+echo "Logged-in Users: $(who)" >> "$report_file"
 
-    echo -e "\n=====  SUID Binaries ====="
-    find / -perm -4000 -type f 2>/dev/null
+# Last failed login attempts
+echo "Failed SSH Attempts: $(grep 'Failed' /var/log/auth.log | tail -n 10)" >> "$report_file"
 
-    echo -e "\n=====  World-Writable Files ====="
-    find / -type f -perm -o+w 2>/dev/null
+# End report
+echo "Audit Completed" >> "$report_file"
+echo "======================================" >> "$report_file"
 
-    echo -e "\n=====  Logged-In Users ====="
-    who
-
-    echo -e "\n=====  Last 10 Logins ====="
-if command -v last >/dev/null 2>&1; then
-    last -n 10
-else
-    echo "'last' command not found. Please install util-linux."
-fi
-
-} > "$REPORT_FILE"
-
-echo " Report saved to: $REPORT_FILE"
+# Output location
+echo "Audit report generated: $report_file"
 
