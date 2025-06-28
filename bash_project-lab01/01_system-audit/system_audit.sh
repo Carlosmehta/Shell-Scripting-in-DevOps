@@ -1,45 +1,103 @@
 #!/bin/bash
 
-<<<<<<< HEAD
-# System Audit Script 
+# System Audit and Health Report Script
 # Author: Bhaskar Mehta
-# Date: $(date)
+# Version: 1.0
+# Description: Generates comprehensive system health report
 
-REPORT_DIR="../reports"
-REPORT_FILE="$REPORT_DIR/system_audit_$(date +%F_%T).log"
-=======
-# Timestamp for the report
-timestamp=$(date '+%Y-%m-%d_%H-%M-%S')
+# Define output file
+REPORT_FILE="system_health_report_$(date +%Y%m%d_%H%M%S).txt"
 
-# Report file
-report_file="reports/audit_${timestamp}.log"
->>>>>>> 0a5e365 (system_audit.sh)
+# Header
+echo "========================================" > $REPORT_FILE
+echo " SYSTEM HEALTH AUDIT REPORT" >> $REPORT_FILE
+echo " Generated: $(date)" >> $REPORT_FILE
+echo "========================================" >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# Start report
-echo "System Audit Report - $timestamp" > "$report_file"
-echo "======================================" >> "$report_file"
-echo "Uptime: $(uptime)" >> "$report_file"
-echo "--------------------------------------" >> "$report_file"
+# 1. System Information
+echo "=== SYSTEM INFORMATION ===" >> $REPORT_FILE
+echo "Hostname: $(hostname)" >> $REPORT_FILE
+echo "Operating System: $(grep PRETTY_NAME /etc/os-release | cut -d '"' -f2)" >> $REPORT_FILE
+echo "Kernel Version: $(uname -r)" >> $REPORT_FILE
+echo "Uptime: $(uptime -p)" >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# CPU usage
-echo "CPU Load: $(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}')" >> "$report_file"
+# 2. CPU Information
+echo "=== CPU INFORMATION ===" >> $REPORT_FILE
+echo "CPU Model: $(grep "model name" /proc/cpuinfo | head -1 | cut -d':' -f2 | sed 's/^[ \t]*//')" >> $REPORT_FILE
+echo "CPU Cores: $(nproc)" >> $REPORT_FILE
+echo "CPU Load (15 min avg): $(uptime | awk -F 'load average:' '{print $2}' | cut -d',' -f2)" >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# Memory usage
-echo "Memory Usage: $(free -h)" >> "$report_file"
+# Function to get CPU usage percentage
+get_cpu_usage() {
+    local cpu_usage=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\$[0-9.]*\$%* id.*/\1/" | awk '{print 100 - $1}')
+    echo "$cpu_usage%"
+}
 
-# Disk usage
-echo "Disk Usage: $(df -h)" >> "$report_file"
+echo "Current CPU Usage: $(get_cpu_usage)" >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# Logged-in users
-echo "Logged-in Users: $(who)" >> "$report_file"
+# 3. Memory Information
+echo "=== MEMORY INFORMATION ===" >> $REPORT_FILE
+free -h >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# Last failed login attempts
-echo "Failed SSH Attempts: $(grep 'Failed' /var/log/auth.log | tail -n 10)" >> "$report_file"
+# 4. Disk Information
+echo "=== DISK INFORMATION ===" >> $REPORT_FILE
+echo "Disk Usage:" >> $REPORT_FILE
+df -h >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# End report
-echo "Audit Completed" >> "$report_file"
-echo "======================================" >> "$report_file"
+echo "Inode Usage:" >> $REPORT_FILE
+df -i >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
-# Output location
-echo "Audit report generated: $report_file"
+# 5. Network Information
+echo "=== NETWORK INFORMATION ===" >> $REPORT_FILE
+ip addr show >> $REPORT_FILE
+echo "" >> $REPORT_FILE
 
+# 6. User Information
+echo "=== USER INFORMATION ===" >> $REPORT_FILE
+echo "Logged-in Users:" >> $REPORT_FILE
+who >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+echo "Sudo Users:" >> $REPORT_FILE
+grep -Po '^sudo.+:\K.*$' /etc/group >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+echo "Users with UID 0:" >> $REPORT_FILE
+awk -F: '($3 == "0") {print}' /etc/passwd >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+# 7. Security Information
+echo "=== SECURITY INFORMATION ===" >> $REPORT_FILE
+echo "Failed SSH Attempts:" >> $REPORT_FILE
+journalctl _SYSTEMD_UNIT=sshd.service | grep "Failed password" | tail -n 10 >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+echo "Recent SSH Logins:" >> $REPORT_FILE
+last -10 >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+# 8. Critical Errors
+echo "=== CRITICAL ERRORS (Last 24 Hours) ===" >> $REPORT_FILE
+journalctl --since "24 hours ago" -p err >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+# 9. Process Information
+echo "=== TOP PROCESSES ===" >> $REPORT_FILE
+ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head -n 10 >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+# Footer
+echo "========================================" >> $REPORT_FILE
+echo " REPORT COMPLETE" >> $REPORT_FILE
+echo "========================================" >> $REPORT_FILE
+echo "" >> $REPORT_FILE
+
+# Final message
+echo "System audit completed. Report generated at: $REPORT_FILE"
